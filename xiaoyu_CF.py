@@ -1,3 +1,5 @@
+import mpl_scatter_density
+import matplotlib.pyplot as plt
 import cytoflow
 import glob
 import os.path
@@ -250,3 +252,122 @@ def subset_by_well(exper, well):
 # get count of cells in the experiment
 def cell_count(experiment):
     return len(experiment.data)
+
+# 2D Density plot
+def density_plot(experiment, xchannel = "FSC 488/10-A", ychannel = "FSC 488/10-H", xscale = "log", yscale = "log", cmap = 'magma_r', **kwargs):
+    fig = plt.figure()
+    ax = fig.add_subplot(1, 1, 1, projection='scatter_density')
+    DensityPlot = ax.scatter_density(experiment.data[xchannel], experiment.data[ychannel], cmap = cmap, **kwargs)
+    ax.set_box_aspect(1)
+    ax.set_xlabel(xchannel)
+    ax.set_ylabel(ychannel)
+    ax.set_xscale(xscale)
+    ax.set_yscale(yscale)
+
+    fig.colorbar(DensityPlot, ax=ax, label='Density')
+    ax.grid(False)
+    return fig, ax
+
+# Draggable Polygon for interactive polygon gate creation
+from matplotlib.widgets import Button
+class DraggablePolygon:
+    def __init__(self, fig, ax):
+        self.fig = fig
+        self.ax = ax
+        plt.subplots_adjust(bottom=0.2)  # Make space for button
+        self.points = []
+        self.dragging_point = None
+        self.epsilon = 10  # pixel distance to select a point
+        self.poly = None
+        self.scatter = None
+        self.interactive_enabled = False
+
+        # Add button for switching interaction
+        self.ax_button = plt.axes([0.4, 0.05, 0.2, 0.075])
+        self.button = Button(self.ax_button, 'Enable Interaction')
+        self.button.on_clicked(self.toggle_interaction)
+
+        self.cid_click = self.fig.canvas.mpl_connect('button_press_event', self.on_click)
+        self.cid_release = self.fig.canvas.mpl_connect('button_release_event', self.on_release)
+        self.cid_motion = self.fig.canvas.mpl_connect('motion_notify_event', self.on_motion)
+        self.cid_close = self.fig.canvas.mpl_connect('close_event', self.on_close)
+
+        self.ax.set_title(self.get_title())
+        plt.show()
+
+    def get_title(self):
+        return ("[ON] " if self.interactive_enabled else "[OFF] ") + "Click to add points. Drag to move. Close window to continue and output points."
+
+    def toggle_interaction(self, event):
+        self.interactive_enabled = not self.interactive_enabled
+        self.button.label.set_text('Disable Interaction' if self.interactive_enabled else 'Enable Interaction')
+        self.ax.set_title(self.get_title())
+        self.fig.canvas.draw_idle()
+
+    def on_click(self, event):
+        if not self.interactive_enabled or event.inaxes != self.ax:
+            return
+        # Check if click is near an existing point
+        for i, (x, y) in enumerate(self.points):
+            if (abs(event.x - self.ax.transData.transform((x, y))[0]) < self.epsilon and
+                abs(event.y - self.ax.transData.transform((x, y))[1]) < self.epsilon):
+                self.dragging_point = i
+                return
+        # Otherwise, add a new point
+        self.points.append([event.xdata, event.ydata])
+        self.update_plot()
+
+    def on_release(self, event):
+        self.dragging_point = None
+
+    def on_motion(self, event):
+        if not self.interactive_enabled or self.dragging_point is None or event.inaxes != self.ax:
+            return
+        self.points[self.dragging_point] = [event.xdata, event.ydata]
+        self.update_plot()
+
+    def update_plot(self):
+        # self.ax.clear()
+        self.ax.set_title(self.get_title())
+        if self.points:
+            if len(self.points) >= 1 and self.scatter is None:
+                xs, ys = zip(*self.points)
+                self.scatter = self.ax.scatter(xs, ys, color='red', zorder=2)
+            elif self.scatter is not None:
+                xs, ys = zip(*self.points)
+                self.scatter.set_offsets(np.c_[xs, ys])
+            if len(self.points) > 1 and self.poly is None:
+                poly_points = self.points + [self.points[0]]
+                px, py = zip(*poly_points)
+                self.poly, = self.ax.plot(px, py, marker='o', color='blue', zorder=1)
+            elif self.poly is not None:
+                poly_points = self.points + [self.points[0]]
+                px, py = zip(*poly_points)
+                self.poly.set_data(px, py)
+        self.fig.canvas.draw()
+
+    def on_close(self, event):
+        print("Polygon points:")
+        print(self.points)
+
+# polygon gate
+polygon_gate_number = 0
+def polygon_gate(experiment, xchannel = "FSC 488/10-A", ychannel = "SSC 488/10-A", xscale = "linear", yscale = "linear", cmap='magma_r', vertices = [], if_plot = False):
+    # construct a polygon gate if vertices is provided
+    global polygon_gate_number
+    if vertices != []:
+        gate = cytoflow.PolygonOp(name = f"polygon_gate_{polygon_gate_number}", xchannel = xchannel, ychannel = ychannel, vertices = vertices)
+        gatedDATA = gate.apply(experiment)
+        polygon_gate_number += 1
+        if if_plot:
+            gate.default_view(xscale = xscale, yscale = yscale).plot(gatedDATA, s = 10, alpha = 0.1)
+        return gatedDATA.subset(f"polygon_gate_{polygon_gate_number-1}", True)
+    else:
+        fig, ax = density_plot(experiment, xchannel = xchannel, ychannel = ychannel, xscale = xscale, yscale = yscale, cmap=cmap)
+        draggable_polygon = DraggablePolygon(fig, ax)
+        gate = cytoflow.PolygonOp(name = f"polygon_gate_{polygon_gate_number}", xchannel = xchannel, ychannel = ychannel, vertices = draggable_polygon.points)
+        gatedDATA = gate.apply(experiment)
+        polygon_gate_number += 1
+        if if_plot:
+            gate.default_view(xscale = xscale, yscale = yscale).plot(gatedDATA, s = 10, alpha = 0.1)
+        return gatedDATA.subset(f"polygon_gate_{polygon_gate_number-1}", True)

@@ -1,0 +1,50 @@
+[build-system]
+requires = ["poetry-core>=1.9.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project]
+name = "xiaoyu-cytoflow"
+version = "0.1.0"
+description = "Self-contained flow cytometry analysis helpers with a slim vendored Cytoflow runtime."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "GPL-2.0-or-later"
+license-files = ["LICENSE.txt", "THIRD_PARTY_NOTICES.md"]
+authors = [
+  { name = "Xiaoyu Wu" }
+]
+dependencies = [
+  "numpy>=1.26",
+  "pandas>=2.1",
+  "matplotlib>=3.8",
+  "scipy>=1.11",
+  "scikit-learn>=1.3",
+  "seaborn>=0.13",
+  "statsmodels>=0.14",
+  "natsort",
+  "numba>=0.59",
+  "traits",
+  "bottleneck",
+  "numexpr",
+  "six",
+  "mpl-scatter-density",
+]
+
+[project.optional-dependencies]
+tables = ["tabulate"]
+
+[tool.poetry]
+packages = [
+  { include = "xiaoyu_CF.py" },
+  { include = "cytoflow" },
+  { include = "fcsparser" }
+]
+include = [
+  "THIRD_PARTY_NOTICES.md"
+]
+
+[tool.poetry.group.dev.dependencies]
+pytest = "*"
+build = "*"
+twine = "*"
+tabulate = "*"

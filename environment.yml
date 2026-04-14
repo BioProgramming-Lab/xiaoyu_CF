@@ -1,0 +1,23 @@
+name: xiaoyu-cytoflow
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - numpy>=1.26
+  - pandas>=2.1
+  - matplotlib>=3.8
+  - scipy>=1.11
+  - scikit-learn>=1.3
+  - seaborn>=0.13
+  - statsmodels>=0.14
+  - natsort
+  - numba>=0.59
+  - traits
+  - bottleneck
+  - numexpr
+  - six
+  - pip
+  - pip:
+      - mpl-scatter-density
+      - tabulate
+      - -e .

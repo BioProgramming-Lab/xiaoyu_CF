@@ -1,0 +1,77 @@
+# xiaoyu-cytoflow
+
+> Self-contained Python package for 96-well plate flow-cytometry FCS analysis,
+> built around `xiaoyu_CF.py` and a slim vendored Cytoflow runtime.
+
+Main package facts:
+
+- Install name: `xiaoyu-cytoflow`
+- Main import: `import xiaoyu_CF as flow`
+- Python: `>=3.12,<3.13`
+- Public API: `xiaoyu_CF`
+- Vendored runtime packages: `cytoflow`, `fcsparser`
+- Example script only: `analysis.py`
+- Full docs: `PROJECT_GUIDE.md`
+- Agent guide: `AGENTS.md`
+
+Core workflow:
+
+```python
+import matplotlib.pyplot as plt
+import xiaoyu_CF as flow
+
+expr = flow.xiaoyu_Expr("path/to/fcs_directory")
+expr.add_conc_condition(1e-5, dilu_dir="down")
+
+cells = flow.auto_gate_FSC_SSC(expr.expr, keep=0.6)
+single_cells = flow.auto_gate_FSC_A_H(cells, keep=0.7)
+
+flow.channel_histogram(single_cells, channel="Alexa 647-A", huefacet="conc")
+expr.median_96well(single_cells, channel="Alexa 647-A")
+
+plt.show()
+```
+
+Key assumptions:
+
+- FCS files are in one directory.
+- File names begin with a well ID such as `A1`, `A2`, or `H12`.
+- The common plate layout is 8 rows by 12 columns.
+- Event data is available as `expr.expr.data`, a pandas `DataFrame`.
+
+Common helpers:
+
+- `flow.xiaoyu_Expr(...)`
+- `expr.add_conc_condition(...)`
+- `expr.add_condition_with_sample_array(...)`
+- `expr.median_96well(...)`
+- `flow.gate_outliers(...)`
+- `flow.assist_gate(...)`
+- `flow.auto_gate_FSC_SSC(...)`
+- `flow.auto_gate_FSC_A_H(...)`
+- `flow.gate_FSC_SSC(...)`
+- `flow.gate_FSC_A_H(...)`
+- `flow.polygon_gate(...)`
+- `flow.channel_histogram(...)`
+- `flow.density_plot(...)`
+- `flow.subset_by_char(...)`
+- `flow.subset_by_num(...)`
+- `flow.subset_by_well(...)`
+- `flow.cell_count(...)`
+
+Important constraints:
+
+- Do not import `analysis.py`; copy its pattern if needed.
+- Available Cytoflow scales are `linear` and `log`.
+- Logicle support is removed.
+- This is not the complete upstream Cytoflow package.
+- If channel names differ, inspect `expr.expr.data.columns` and pass explicit
+  channel names to helper functions.
+
+Documentation files:
+
+- `README.md`: concise overview.
+- `PROJECT_GUIDE.md`: detailed docs, API notes, testing, publishing,
+  troubleshooting.
+- `AGENTS.md`: coding-agent usage guidance.
+- `THIRD_PARTY_NOTICES.md`: vendored dependency notes.

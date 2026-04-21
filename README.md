@@ -10,6 +10,10 @@ FCS files, attaching sample and concentration metadata, removing outliers,
 gating cell populations and doublets, plotting channel distributions, subsetting
 by well/row/column, and exporting 96-well median signal tables.
 
+The installable API is `xiaoyu_CF` plus the vendored runtime packages
+`cytoflow` and `fcsparser`. `analysis.py` is kept as a small example script in
+the repository; it is not packaged as an importable module.
+
 ## Why This Exists
 
 The original analysis code depended on a locally patched Cytoflow install that
@@ -77,6 +81,11 @@ plt.show()
 See [PROJECT_GUIDE.md](PROJECT_GUIDE.md) for the full project documentation,
 including data layout assumptions, API reference, example workflows, testing,
 packaging, and maintenance notes.
+
+For AI coding assistants and notebook agents, this repository also includes
+[AGENTS.md](AGENTS.md) and [llms.txt](llms.txt). These files summarize the
+import name, common workflow, public helpers, channel assumptions, and removed
+Cytoflow features in a compact form that agents can discover quickly.
 
 ## Test Data
 

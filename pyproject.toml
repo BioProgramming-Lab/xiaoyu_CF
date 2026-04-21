@@ -40,7 +40,10 @@ packages = [
   { include = "fcsparser" }
 ]
 include = [
-  "THIRD_PARTY_NOTICES.md"
+  "THIRD_PARTY_NOTICES.md",
+  "PROJECT_GUIDE.md",
+  "AGENTS.md",
+  "llms.txt"
 ]
 
 [tool.poetry.group.dev.dependencies]

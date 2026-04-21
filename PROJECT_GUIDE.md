@@ -7,6 +7,11 @@ The short version: this package wraps Xiaoyu's flow-cytometry analysis workflow
 and vendors the Cytoflow pieces required to run it on Python 3.12 without a
 separate upstream Cytoflow installation.
 
+The installed package exposes `xiaoyu_CF` as the main user-facing module, plus
+the vendored `cytoflow` and `fcsparser` runtime packages. The repository also
+contains example and test scripts, but those scripts are not themselves part of
+the installed library API.
+
 ## Project Goals
 
 `xiaoyu-cytoflow` is designed for reproducible analysis of plate-based flow
@@ -33,7 +38,9 @@ all Cytoflow features.
 | Path | Purpose |
 | --- | --- |
 | `xiaoyu_CF.py` | Main user-facing analysis helpers. Import this as `xiaoyu_CF` or `flow`. |
-| `analysis.py` | Minimal example script using the original workflow style. |
+| `analysis.py` | Minimal example script using the original workflow style. It is not included as a packaged API module. |
+| `AGENTS.md` | Short guide for AI coding agents helping users write scripts with this package. |
+| `llms.txt` | Compact package map for LLM-oriented tools and documentation indexers. |
 | `cytoflow/` | Slim vendored Cytoflow runtime subset. |
 | `fcsparser/` | Vendored FCS parser used by Cytoflow import operations. |
 | `environment.yml` | Reproducible mamba environment for Python 3.12 development and testing. |
@@ -45,6 +52,21 @@ all Cytoflow features.
 The `test/` directory can also contain local experiment data and exploratory
 analysis scripts. Those files are useful for validating real workflows, but they
 are not part of the public package API.
+
+The package include list in `pyproject.toml` intentionally contains only:
+
+- `xiaoyu_CF.py`;
+- `cytoflow/`;
+- `fcsparser/`.
+
+That means users should write:
+
+```python
+import xiaoyu_CF as flow
+```
+
+They should not depend on importing `analysis.py`. Instead, they can copy the
+pattern from `analysis.py` into their own experiment scripts or notebooks.
 
 ## Installation
 
@@ -148,6 +170,42 @@ plt.show()
 The object returned by `xiaoyu_Expr(...).expr` is a vendored Cytoflow
 `Experiment`. Its event table is available as `experiment.data`, a pandas
 `DataFrame`.
+
+## AI Agent Usage
+
+This project is meant to be friendly to AI-assisted analysis. The best entry
+points for coding agents are:
+
+- `README.md` for a quick package overview;
+- `llms.txt` for a compact machine-readable project map;
+- `AGENTS.md` for code-generation rules and safe defaults;
+- this guide for detailed API behavior and maintenance notes.
+
+When asking an AI assistant to write analysis code, point it at `AGENTS.md` and
+`PROJECT_GUIDE.md`, then describe:
+
+- the directory containing the `.fcs` files;
+- the channel to analyze;
+- the gating strategy, if it differs from the standard FSC/SSC then FSC-A/FSC-H
+  workflow;
+- the plate metadata or concentration layout;
+- the desired output, such as plots, positive fractions, or 96-well medians.
+
+Good prompt example:
+
+```text
+Use xiaoyu-cytoflow. Read AGENTS.md and PROJECT_GUIDE.md first. Write a Python
+script that loads my FCS directory, prints available channels, gates cells with
+auto_gate_FSC_SSC and auto_gate_FSC_A_H, plots Alexa 647-A by concentration,
+and exports 96-well medians.
+```
+
+Agents should not import `analysis.py`; it is only an example script. Generated
+analysis code should import:
+
+```python
+import xiaoyu_CF as flow
+```
 
 ## Public API
 

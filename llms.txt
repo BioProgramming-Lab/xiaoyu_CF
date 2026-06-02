@@ -1,16 +1,14 @@
 # xiaoyu-cytoflow
 
-> Self-contained Python package for 96-well plate flow-cytometry FCS analysis,
-> built around `xiaoyu_CF.py` and a slim vendored Cytoflow runtime.
+> Self-contained Python package for 96-well plate flow-cytometry FCS analysis.
 
 Main package facts:
 
 - Install name: `xiaoyu-cytoflow`
 - Main import: `import xiaoyu_CF as flow`
-- Python: `>=3.12,<3.13`
+- Python: `>=3.9`
 - Public API: `xiaoyu_CF`
-- Vendored runtime packages: `cytoflow`, `fcsparser`
-- Example script only: `analysis.py`
+- Internal modules (under `src/xiaoyu_CF/`): `_experiment`, `_operations`, `_views`, `_utility`, `_fcsparser`
 - Full docs: `PROJECT_GUIDE.md`
 - Agent guide: `AGENTS.md`
 
@@ -61,10 +59,9 @@ Common helpers:
 
 Important constraints:
 
-- Do not import `analysis.py`; copy its pattern if needed.
-- Available Cytoflow scales are `linear` and `log`.
+- Available scales are `linear` and `log`.
 - Logicle support is removed.
-- This is not the complete upstream Cytoflow package.
+- The vendored cytoflow/fcsparser code is now internal to `xiaoyu_CF`.
 - If channel names differ, inspect `expr.expr.data.columns` and pass explicit
   channel names to helper functions.
 

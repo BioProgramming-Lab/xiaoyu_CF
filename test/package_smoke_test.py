@@ -25,7 +25,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 import xiaoyu_CF as flow  # noqa: E402
-import cytoflow.utility as util  # noqa: E402
+from xiaoyu_CF import _utility as util  # noqa: E402
 
 
 DATA_DIR = REPO_ROOT / "test" / "26Mar2025" / "HuaiDan-New Experiment-20250326-1722"
@@ -40,7 +40,7 @@ def positive_fraction(experiment, channel: str, low: float, high: float = 1e10) 
 def main() -> None:
     assert DATA_DIR.exists(), f"Missing test data directory: {DATA_DIR}"
     assert not list(REPO_ROOT.rglob("*.so")), "Compiled .so files are still present"
-    assert sorted(util.scale._scale_mapping.keys()) == ["linear", "log"]
+    assert sorted(util._scale_mapping.keys()) == ["linear", "log"]
 
     expr = flow.xiaoyu_Expr(str(DATA_DIR))
     expr.add_conc_condition(1e-5, dilu_dir="down")
@@ -86,7 +86,7 @@ def main() -> None:
 
     summary = {
         "data_dir": str(DATA_DIR.relative_to(REPO_ROOT)),
-        "scale_mapping": sorted(util.scale._scale_mapping.keys()),
+        "scale_mapping": sorted(util._scale_mapping.keys()),
         "fcs_files": len(expr.filelist),
         "events_imported": int(len(expr.expr)),
         "events_after_fsc_ssc_gate": int(len(cell_type)),

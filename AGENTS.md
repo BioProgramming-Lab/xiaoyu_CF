@@ -7,12 +7,22 @@ users write analysis code with `xiaoyu-cytoflow`.
 
 - PyPI package name: `xiaoyu-cytoflow`
 - Main import: `import xiaoyu_CF as flow`
-- Runtime imports also available: `cytoflow`, `fcsparser`
-- Python target: `>=3.12,<3.13`
+- The former `cytoflow` and `fcsparser` packages are now internal modules (prefixed with `_`)
+- Python target: `>=3.9`
 - Primary domain: 96-well plate flow-cytometry FCS analysis
 
-Do not import `analysis.py`. It is an example script in the repository, not a
-packaged API module.
+## Internal Module Map
+
+For codebase exploration, the vendored code lives under `src/xiaoyu_CF/`:
+
+| Module | Contents |
+|--------|----------|
+| `__init__.py` | Public API: `xiaoyu_Expr`, all gating/plotting helpers |
+| `_experiment.py` | `Experiment` class (core data structure) |
+| `_operations.py` | `ImportOp`, `Tube`, `RangeOp`, `PolygonOp`, `DensityGateOp`, `AutofluorescenceOp`, `BleedthroughLinearOp` |
+| `_views.py` | `HistogramView`, `ScatterplotView`, `DensityView`, base view classes |
+| `_utility.py` | Scales, errors, algorithms, custom traits, docstring helpers |
+| `_fcsparser.py` | FCS file parser (`parse` function)
 
 ## Fast Mental Model
 
@@ -107,7 +117,6 @@ When generating user scripts:
 - Prefer explicit channel arguments instead of hard-coding new names.
 - Use `auto_gate_FSC_SSC` before `auto_gate_FSC_A_H` for the standard cleanup.
 - Use `plt.show()` only for interactive scripts.
-- Avoid depending on `analysis.py`.
 - Avoid using removed Cytoflow features such as logicle scales or unused
   advanced views.
 

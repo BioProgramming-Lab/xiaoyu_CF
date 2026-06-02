@@ -4,13 +4,13 @@ This guide documents the structure, assumptions, workflow, and maintenance
 practice for `xiaoyu-cytoflow`.
 
 The short version: this package wraps Xiaoyu's flow-cytometry analysis workflow
-and vendors the Cytoflow pieces required to run it on Python 3.12 without a
+and vendors the Cytoflow pieces required to run it on Python >=3.9 without a
 separate upstream Cytoflow installation.
 
-The installed package exposes `xiaoyu_CF` as the main user-facing module, plus
-the vendored `cytoflow` and `fcsparser` runtime packages. The repository also
-contains example and test scripts, but those scripts are not themselves part of
-the installed library API.
+The installed package exposes `xiaoyu_CF` as the main user-facing module, with
+the vendored cytoflow and fcsparser code now integrated as internal modules
+(prefixed with `_`). The repository also contains example and test scripts, but
+those scripts are not themselves part of the installed library API.
 
 ## Project Goals
 
@@ -37,13 +37,13 @@ all Cytoflow features.
 
 | Path | Purpose |
 | --- | --- |
-| `xiaoyu_CF.py` | Main user-facing analysis helpers. Import this as `xiaoyu_CF` or `flow`. |
-| `analysis.py` | Minimal example script using the original workflow style. It is not included as a packaged API module. |
-| `AGENTS.md` | Short guide for AI coding agents helping users write scripts with this package. |
-| `llms.txt` | Compact package map for LLM-oriented tools and documentation indexers. |
-| `cytoflow/` | Slim vendored Cytoflow runtime subset. |
-| `fcsparser/` | Vendored FCS parser used by Cytoflow import operations. |
-| `environment.yml` | Reproducible mamba environment for Python 3.12 development and testing. |
+| `src/xiaoyu_CF/__init__.py` | Main user-facing analysis helpers and public API. |
+| `src/xiaoyu_CF/_experiment.py` | `Experiment` class (core data structure). |
+| `src/xiaoyu_CF/_operations.py` | All operations: import, gating, autofluorescence, bleedthrough. |
+| `src/xiaoyu_CF/_views.py` | All views: histogram, scatterplot, density, base view classes. |
+| `src/xiaoyu_CF/_utility.py` | Utility functions: scales, errors, algorithms, custom traits. |
+| `src/xiaoyu_CF/_fcsparser.py` | FCS file format parser. |
+| `environment.yml` | Reproducible mamba environment for development and testing. |
 | `pyproject.toml` | Package metadata and Poetry build configuration. |
 | `test/package_smoke_test.py` | Non-interactive smoke test for the self-contained package. |
 | `THIRD_PARTY_NOTICES.md` | Third-party license and vendoring notes. |
@@ -53,20 +53,15 @@ The `test/` directory can also contain local experiment data and exploratory
 analysis scripts. Those files are useful for validating real workflows, but they
 are not part of the public package API.
 
-The package include list in `pyproject.toml` intentionally contains only:
+The package include list in `pyproject.toml` contains only:
 
-- `xiaoyu_CF.py`;
-- `cytoflow/`;
-- `fcsparser/`.
+- `xiaoyu_CF` (from `src/`)
 
 That means users should write:
 
 ```python
 import xiaoyu_CF as flow
 ```
-
-They should not depend on importing `analysis.py`. Instead, they can copy the
-pattern from `analysis.py` into their own experiment scripts or notebooks.
 
 ## Installation
 
@@ -80,10 +75,9 @@ mamba activate xiaoyu-cytoflow
 ```
 
 The environment installs this repository in editable mode with `pip -e .`.
-That means edits to `xiaoyu_CF.py` or the vendored runtime are picked up without
-reinstalling.
+That means edits to the source under `src/` are picked up without reinstalling.
 
-### Existing Python 3.12 Environment
+### Existing Python Environment
 
 If the dependencies are already available:
 
@@ -91,8 +85,7 @@ If the dependencies are already available:
 pip install -e .
 ```
 
-The package metadata currently supports Python `>=3.12,<3.13`. It may work on
-nearby Python versions, but Python 3.12 is the tested target.
+The package metadata supports Python `>=3.9`.
 
 ### Optional Table Output
 
@@ -200,8 +193,7 @@ auto_gate_FSC_SSC and auto_gate_FSC_A_H, plots Alexa 647-A by concentration,
 and exports 96-well medians.
 ```
 
-Agents should not import `analysis.py`; it is only an example script. Generated
-analysis code should import:
+Generated analysis code should import:
 
 ```python
 import xiaoyu_CF as flow
@@ -478,25 +470,21 @@ n = flow.cell_count(experiment)
 
 Returns the number of events in an experiment.
 
-## Vendored Cytoflow Runtime
+## Vendored Runtime (Internal Modules)
 
-The package includes a reduced `cytoflow/` tree copied from a working local
-environment and updated for modern dependencies. This was done because upstream
-Cytoflow was difficult to install and needed local fixes.
+The package includes a reduced cytoflow runtime, now integrated as private
+modules under `src/xiaoyu_CF/` instead of being a separate package. This was
+done because upstream Cytoflow was difficult to install and needed local fixes.
+The FCS parser is also integrated as `_fcsparser.py`.
 
-Included Cytoflow pieces:
+Internal module layout:
 
-- `Experiment`
-- `Tube`
-- `ImportOp`
-- `RangeOp`
-- `PolygonOp`
-- `DensityGateOp`
-- `AutofluorescenceOp`
-- `BleedthroughLinearOp`
-- `HistogramView`
-- `ScatterplotView`
-- `DensityView`
+- `_experiment.py` — `Experiment` class
+- `_operations.py` — `Tube`, `ImportOp`, `RangeOp`, `PolygonOp`, `DensityGateOp`,
+  `AutofluorescenceOp`, `BleedthroughLinearOp`
+- `_views.py` — `HistogramView`, `ScatterplotView`, `DensityView`
+- `_utility.py` — scales, errors, algorithms, custom traits
+- `_fcsparser.py` — FCS file parser
 
 Removed Cytoflow pieces include many statistical views, advanced operations,
 script entry points, and the compiled logicle extension.

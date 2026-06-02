@@ -2,27 +2,14 @@
 
 `xiaoyu-cytoflow` is a self-contained flow-cytometry analysis package for
 96-well plate FCS workflows. It packages Xiaoyu's analysis helpers together
-with the small Cytoflow runtime subset they need, so users do not have to
-install the unmaintained upstream `cytoflow` package separately.
+with the slim Cytoflow runtime subset they need — no separate upstream
+`cytoflow` installation required.
 
-The package focuses on the workflow used in `xiaoyu_CF.py`: importing plate
-FCS files, attaching sample and concentration metadata, removing outliers,
-gating cell populations and doublets, plotting channel distributions, subsetting
-by well/row/column, and exporting 96-well median signal tables.
+Includes FCS import, metadata assignment, outlier removal, cell/doublet
+gating, histograms, density plots, well/row/column subsetting, and 96-well
+median export.
 
-The installable API is `xiaoyu_CF` plus the vendored runtime packages
-`cytoflow` and `fcsparser`. `analysis.py` is kept as a small example script in
-the repository; it is not packaged as an importable module.
-
-## Why This Exists
-
-The original analysis code depended on a locally patched Cytoflow install that
-was difficult to recreate on modern Python. This repository vendors the working
-pieces of that local runtime and updates them for Python 3.12, making the
-analysis easier to share, test, and publish.
-
-The vendored Cytoflow subset is intentionally small. It keeps the pieces used by
-the current workflow:
+The vendored Cytoflow subset includes:
 
 - FCS import and experiment storage
 - range, polygon, and density gates
@@ -30,31 +17,19 @@ the current workflow:
 - histogram, scatter, and density views
 - `linear` and `log` scales
 
-The compiled Cytoflow logicle extension was removed, so this package is pure
-Python.
+The compiled logicle extension was removed, so this package is pure Python.
 
 ## Installation
-
-The recommended development setup uses mamba:
 
 ```bash
 mamba env create -f environment.yml
 mamba activate xiaoyu-cytoflow
 ```
 
-The environment installs this repository in editable mode, so local changes are
-immediately visible.
-
-In an existing Python 3.12 environment, install with:
+Or in an existing Python >=3.9 environment:
 
 ```bash
 pip install -e .
-```
-
-After the package is published to PyPI, users will be able to install it with:
-
-```bash
-pip install xiaoyu-cytoflow
 ```
 
 ## Quick Start
@@ -66,11 +41,10 @@ import xiaoyu_CF as flow
 expr = flow.xiaoyu_Expr("path/to/fcs_directory")
 expr.add_conc_condition(1e-5, dilu_dir="down")
 
-without_outliers = flow.gate_outliers(expr.expr)
-cell_population = flow.auto_gate_FSC_SSC(without_outliers, if_plot=True)
-single_cells = flow.auto_gate_FSC_A_H(cell_population, if_plot=True, keep=0.7)
+cells = flow.auto_gate_FSC_SSC(expr.expr, keep=0.6)
+single_cells = flow.auto_gate_FSC_A_H(cells, keep=0.7)
 
-flow.channel_histogram(flow.subset_by_num(single_cells, "12"), huefacet="conc")
+flow.channel_histogram(single_cells, channel="Alexa 647-A", huefacet="conc")
 expr.median_96well(single_cells, channel="Alexa 647-A")
 
 plt.show()
@@ -78,27 +52,16 @@ plt.show()
 
 ## Documentation
 
-See [PROJECT_GUIDE.md](PROJECT_GUIDE.md) for the full project documentation,
-including data layout assumptions, API reference, example workflows, testing,
-packaging, and maintenance notes.
+- [PROJECT_GUIDE.md](PROJECT_GUIDE.md) — full API reference, workflows, testing, publishing
+- [AGENTS.md](AGENTS.md) — quick guide for AI coding agents
+- [llms.txt](llms.txt) — compact machine-readable project map
 
-For AI coding assistants and notebook agents, this repository also includes
-[AGENTS.md](AGENTS.md) and [llms.txt](llms.txt). These files summarize the
-import name, common workflow, public helpers, channel assumptions, and removed
-Cytoflow features in a compact form that agents can discover quickly.
-
-## Test Data
-
-The `test/` directory may contain local experiment data and scratch analysis
-files. The included smoke test exercises the packaged workflow against the
-provided example data:
+## Testing
 
 ```bash
 MPLCONFIGDIR=/tmp/mplconfig python test/package_smoke_test.py
 ```
 
-## Licensing
+## License
 
-This project includes a vendored subset of Cytoflow, which is GPL-licensed.
-The package is therefore distributed under GPL-compatible terms. See
-[LICENSE.txt](LICENSE.txt) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+GPL-compatible. See [LICENSE.txt](LICENSE.txt) and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).

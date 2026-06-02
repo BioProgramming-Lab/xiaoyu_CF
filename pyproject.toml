@@ -4,10 +4,10 @@ build-backend = "poetry.core.masonry.api"
 
 [project]
 name = "xiaoyu-cytoflow"
-version = "0.1.0"
+version = "0.2.0"
 description = "Self-contained flow cytometry analysis helpers with a slim vendored Cytoflow runtime."
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
+requires-python = ">=3.9"
 license = "GPL-2.0-or-later"
 license-files = ["LICENSE.txt", "THIRD_PARTY_NOTICES.md"]
 authors = [
@@ -35,9 +35,7 @@ tables = ["tabulate"]
 
 [tool.poetry]
 packages = [
-  { include = "xiaoyu_CF.py" },
-  { include = "cytoflow" },
-  { include = "fcsparser" }
+  { include = "xiaoyu_CF", from = "src" }
 ]
 include = [
   "THIRD_PARTY_NOTICES.md",

@@ -1,0 +1,256 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.23.8",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "3b3a642e128d03acf8765b596798bd6c",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"cell-binding-assay-anti-his\">Cell Binding Assay \u2014 anti-His</h1></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "2fe8ab5c9cf5fa67cfd0d162b9f27c39",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "3 fsc files loaded\nproperties of the experiment: Index(['APC (Allophycocyanin)-A', 'APC (Allophycocyanin)-H',\n       'APC (Allophycocyanin)-W', 'Event Info', 'FSC 488/10-A', 'FSC 488/10-H',\n       'FSC 488/10-W', 'SSC 488/10-A', 'SSC 488/10-H', 'SSC 488/10-W', 'TIME',\n       'TLSW', 'TMSW', 'char', 'num', 'sample', 'well'],\n      dtype='str')\nEvents: 66,447\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "2cef213d2efb6a6a943c6407cfcee505",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"1-cleanup-remove-saturation\">1. Cleanup \u2014 remove saturation</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "4d17c19d2b22a57fd7bf94b0b0e2d5c6",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Removed 3,298 events (63,149 remain)\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "PKri",
+      "code_hash": "348e4b710f44d4ccd60a8c21ca302e72",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"2-gate-cells\">2. Gate Cells</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "2193a2ae77bf56b76b0f56eddcdcc321",
+      "outputs": [],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "OMP: Info #276: omp_set_nested routine deprecated, please use omp_set_max_active_levels instead.\n",
+          "mimetype": "text/plain"
+        },
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Cells: 38,480 (61%)\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "cd9c6d4a71d338b3357c255eec58f3be",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"3-gate-singlets\">3. Gate Singlets</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "949f5ec7c6171e39baf5a3de3fbb64d4",
+      "outputs": [],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Singlets: 27,554\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "e9e306c114e2c65400cc2be54a6df942",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"4-histogram-apc\">4. Histogram \u2014 APC</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "86e93a9bb3266ec603375d9f0489555a",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"4-manual-gate-draw-polygon-then-re-run-next-cell\">4. Manual Gate (draw polygon, then re-run next cell)</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "07e99104e01a440ca5eb578bd5f59a61",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "fe2e879c2ce695bf9c1f258716e6396e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Manual gate: 45,546 events\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "fb15cd53cd207a0684369a1c5eef097e",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "df677ad983734202c2c01437a3c47fcb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"5-ridgeline-apc\">5. Ridgeline \u2014 APC</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "27828bf1674dcd34a95e15558a443db8",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "1058bfb2df11826c3c46e96f6f2d7854",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"6-96-well-median\">6. 96-well Median</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "4b0986d9439608e082b2bd9992989be1",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-ui-element object-id='qnkX-0' random-id='73550423-a25e-4731-0351-3f483cb48303'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;&#92;&quot;:&#92;&quot;A&#92;&quot;,&#92;&quot;_marimo_row_id&#92;&quot;:0,&#92;&quot;1&#92;&quot;:0,&#92;&quot;2&#92;&quot;:0,&#92;&quot;3&#92;&quot;:0,&#92;&quot;4&#92;&quot;:0,&#92;&quot;5&#92;&quot;:0,&#92;&quot;6&#92;&quot;:0,&#92;&quot;7&#92;&quot;:0,&#92;&quot;8&#92;&quot;:53678.0,&#92;&quot;9&#92;&quot;:0,&#92;&quot;10&#92;&quot;:0,&#92;&quot;11&#92;&quot;:0,&#92;&quot;12&#92;&quot;:0},{&#92;&quot;&#92;&quot;:&#92;&quot;B&#92;&quot;,&#92;&quot;_marimo_row_id&#92;&quot;:1,&#92;&quot;1&#92;&quot;:0,&#92;&quot;2&#92;&quot;:0,&#92;&quot;3&#92;&quot;:0,&#92;&quot;4&#92;&quot;:0,&#92;&quot;5&#92;&quot;:0,&#92;&quot;6&#92;&quot;:0,&#92;&quot;7&#92;&quot;:0,&#92;&quot;8&#92;&quot;:0.0,&#92;&quot;9&#92;&quot;:0,&#92;&quot;10&#92;&quot;:0,&#92;&quot;11&#92;&quot;:0,&#92;&quot;12&#92;&quot;:0},{&#92;&quot;&#92;&quot;:&#92;&quot;C&#92;&quot;,&#92;&quot;_marimo_row_id&#92;&quot;:2,&#92;&quot;1&#92;&quot;:0,&#92;&quot;2&#92;&quot;:0,&#92;&quot;3&#92;&quot;:0,&#92;&quot;4&#92;&quot;:0,&#92;&quot;5&#92;&quot;:0,&#92;&quot;6&#92;&quot;:0,&#92;&quot;7&#92;&quot;:0,&#92;&quot;8&#92;&quot;:0.0,&#92;&quot;9&#92;&quot;:0,&#92;&quot;10&#92;&quot;:0,&#92;&quot;11&#92;&quot;:0,&#92;&quot;12&#92;&quot;:0},{&#92;&quot;&#92;&quot;:&#92;&quot;D&#92;&quot;,&#92;&quot;_marimo_row_id&#92;&quot;:3,&#92;&quot;1&#92;&quot;:0,&#92;&quot;2&#92;&quot;:0,&#92;&quot;3&#92;&quot;:0,&#92;&quot;4&#92;&quot;:0,&#92;&quot;5&#92;&quot;:0,&#92;&quot;6&#92;&quot;:0,&#92;&quot;7&#92;&quot;:0,&#92;&quot;8&#92;&quot;:0.0,&#92;&quot;9&#92;&quot;:0,&#92;&quot;10&#92;&quot;:0,&#92;&quot;11&#92;&quot;:0,&#92;&quot;12&#92;&quot;:0},{&#92;&quot;&#92;&quot;:&#92;&quot;E&#92;&quot;,&#92;&quot;_marimo_row_id&#92;&quot;:4,&#92;&quot;1&#92;&quot;:0,&#92;&quot;2&#92;&quot;:0,&#92;&quot;3&#92;&quot;:0,&#92;&quot;4&#92;&quot;:0,&#92;&quot;5&#92;&quot;:0,&#92;&quot;6&#92;&quot;:0,&#92;&quot;7&#92;&quot;:0,&#92;&quot;8&#92;&quot;:2805.0,&#92;&quot;9&#92;&quot;:0,&#92;&quot;10&#92;&quot;:0,&#92;&quot;11&#92;&quot;:0,&#92;&quot;12&#92;&quot;:0},{&#92;&quot;&#92;&quot;:&#92;&quot;F&#92;&quot;,&#92;&quot;_marimo_row_id&#92;&quot;:5,&#92;&quot;1&#92;&quot;:0,&#92;&quot;2&#92;&quot;:0,&#92;&quot;3&#92;&quot;:0,&#92;&quot;4&#92;&quot;:0,&#92;&quot;5&#92;&quot;:0,&#92;&quot;6&#92;&quot;:0,&#92;&quot;7&#92;&quot;:0,&#92;&quot;8&#92;&quot;:0.0,&#92;&quot;9&#92;&quot;:0,&#92;&quot;10&#92;&quot;:0,&#92;&quot;11&#92;&quot;:0,&#92;&quot;12&#92;&quot;:0},{&#92;&quot;&#92;&quot;:&#92;&quot;G&#92;&quot;,&#92;&quot;_marimo_row_id&#92;&quot;:6,&#92;&quot;1&#92;&quot;:0,&#92;&quot;2&#92;&quot;:0,&#92;&quot;3&#92;&quot;:0,&#92;&quot;4&#92;&quot;:0,&#92;&quot;5&#92;&quot;:0,&#92;&quot;6&#92;&quot;:0,&#92;&quot;7&#92;&quot;:0,&#92;&quot;8&#92;&quot;:0.0,&#92;&quot;9&#92;&quot;:0,&#92;&quot;10&#92;&quot;:0,&#92;&quot;11&#92;&quot;:0,&#92;&quot;12&#92;&quot;:0},{&#92;&quot;&#92;&quot;:&#92;&quot;H&#92;&quot;,&#92;&quot;_marimo_row_id&#92;&quot;:7,&#92;&quot;1&#92;&quot;:0,&#92;&quot;2&#92;&quot;:0,&#92;&quot;3&#92;&quot;:0,&#92;&quot;4&#92;&quot;:0,&#92;&quot;5&#92;&quot;:0,&#92;&quot;6&#92;&quot;:0,&#92;&quot;7&#92;&quot;:0,&#92;&quot;8&#92;&quot;:25.0,&#92;&quot;9&#92;&quot;:0,&#92;&quot;10&#92;&quot;:0,&#92;&quot;11&#92;&quot;:0,&#92;&quot;12&#92;&quot;:0}]&quot;' data-total-rows='8' data-size-bytes='849' data-total-columns='12' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='false' data-page-size='10' data-field-types='[[&quot;1&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;2&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;3&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;4&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;5&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;6&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;7&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;8&quot;,[&quot;number&quot;,&quot;float64&quot;]],[&quot;9&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;10&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;11&quot;,[&quot;integer&quot;,&quot;int64&quot;]],[&quot;12&quot;,[&quot;integer&quot;,&quot;int64&quot;]]]' data-selection='&quot;multi&quot;' data-show-filters='true' data-show-download='true' data-show-column-summaries='false' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[[&quot;&quot;,[&quot;string&quot;,&quot;str&quot;]]]' data-has-stable-row-id='true' data-lazy='false' data-preload='false'></marimo-table></marimo-ui-element>"
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "median values of APC (Allophycocyanin)-A output to test/HuaiDan-cell binding assay anti-His-20240417-2003/median_values.txt\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    }
+  ]
+}

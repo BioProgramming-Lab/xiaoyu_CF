@@ -44,7 +44,8 @@ expr.add_conc_condition(1e-5, dilu_dir="down")
 cells = flow.auto_gate_FSC_SSC(expr.expr, keep=0.6)
 single_cells = flow.auto_gate_FSC_A_H(cells, keep=0.7)
 
-flow.channel_histogram(single_cells, channel="Alexa 647-A", huefacet="conc")
+flow.density_plot(single_cells, xchannel="FSC 488/10-A",
+                  ychannel="Alexa 647-A", xscale="log", yscale="log")
 expr.median_96well(single_cells, channel="Alexa 647-A")
 
 plt.show()

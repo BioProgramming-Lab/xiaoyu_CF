@@ -63,19 +63,19 @@ def main() -> None:
     fractions = {}
     for char in ["A", "B", "C"]:
         mix = flow.subset_by_char(de_doublets, char)
-        epcam = flow.assist_gate(mix, channel="mCherry-A", low=5e6, high=1e9)
-        egfr = flow.assist_gate(mix, channel="TagBFP-A", low=4e6, high=1e9)
+        epcam = flow.assist_gate(mix, channel="mCherry-A", low=600, high=120000)
+        egfr = flow.assist_gate(mix, channel="TagBFP-A", low=500, high=120000)
         coexpression = flow.assist_gate(
             mix,
             channel="549/15-488 nm citrine-A",
-            low=4e6,
-            high=1e9,
+            low=500,
+            high=120000,
         )
 
         fractions[char] = {
-            "CHO_EGFR": positive_fraction(egfr, "Alexa 647-A", low=3e8),
-            "CHO_EpCAM": positive_fraction(epcam, "Alexa 647-A", low=3e8),
-            "CHO_EGFR_EpCAM": positive_fraction(coexpression, "Alexa 647-A", low=3e8),
+            "CHO_EGFR": positive_fraction(egfr, "Alexa 647-A", low=35000),
+            "CHO_EpCAM": positive_fraction(epcam, "Alexa 647-A", low=35000),
+            "CHO_EGFR_EpCAM": positive_fraction(coexpression, "Alexa 647-A", low=35000),
         }
 
     medians = (

@@ -1,0 +1,179 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.23.8",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "bcdad5f6808a5c1566d9f7b5315cb8ff",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"flow-cytometry-analysis\">Flow Cytometry Analysis</h1>\n<span class=\"paragraph\"><strong>Workflow</strong>: load \u2192 gate \u2192 histogram (or interactive polygon gate).\nAdd your own cells for density plots, median tables, etc.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "e3dd66af539ae22b5c0a65941bfff242",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "xiaoyu_CF version: 0.3.0\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "21a07725d1c4c9caf176b765cb0cf459",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"1-load-fcs-data\">1. Load FCS Data</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "e2431b6db545b82c1971567e4a7b68aa",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "6 fsc files loaded\nproperties of the experiment: Index(['549/15-488 nm citrine-A', '549/15-488 nm citrine-H',\n       '549/15-488 nm citrine-W', 'Alexa 647-A', 'Alexa 647-H', 'Alexa 647-W',\n       'Citrine-A', 'Citrine-H', 'Citrine-W', 'Event Info', 'FSC 488/10-A',\n       'FSC 488/10-H', 'FSC 488/10-W', 'SSC 488/10-A', 'SSC 488/10-H',\n       'SSC 488/10-W', 'TIME', 'TLSW', 'TMSW', 'TagBFP-A', 'TagBFP-H',\n       'TagBFP-W', 'char', 'mCherry-A', 'mCherry-H', 'mCherry-W', 'num',\n       'sample', 'well'],\n      dtype='str')\nEvents loaded: 256,836\nChannels: ['549/15-488 nm citrine-A', '549/15-488 nm citrine-H', '549/15-488 nm citrine-W', 'Alexa 647-A', 'Alexa 647-H', 'Alexa 647-W', 'Citrine-A', 'Citrine-H', 'Citrine-W', 'Event Info', 'FSC 488/10-A', 'FSC 488/10-H', 'FSC 488/10-W', 'SSC 488/10-A', 'SSC 488/10-H', 'SSC 488/10-W', 'TIME', 'TLSW', 'TMSW', 'TagBFP-A', 'TagBFP-H', 'TagBFP-W', 'mCherry-A', 'mCherry-H', 'mCherry-W']\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "PKri",
+      "code_hash": "00ab8fcad96b339603ce05da282335bf",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"2-gate-cells-singlets-fsc-ssc-fsc-a-fsc-h\">2. Gate Cells \u2192 Singlets (FSC / SSC \u2192 FSC-A / FSC-H)</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "022130834a63559e266082a6e329fc0f",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Cells: 158,681  |  Singlets: 127,008\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "9a6fab02f331b11aea95f85db09087aa",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"alt-interactive-polygon-gate\">(Alt) Interactive Polygon Gate</h2>\n<ol>\n<li>Run this cell \u2192 draw a polygon on the plot</li>\n<li>Re-run the next cell to apply the gate</li>\n</ol></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "eea0259260e28714df48627a3be8b6c5",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "20464607f37b8890b04e13548bfa253a",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "exception",
+          "evalue": "No polygon drawn yet. Draw a polygon in the interactive preview cell first, then re-run this cell.",
+          "traceback": null
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stderr",
+          "text": "<span class=\"codehilite\"><div class=\"highlight\"><pre><span></span><span class=\"gt\">Traceback (most recent call last):</span>\n  File <span class=\"nb\">&quot;/var/folders/h4/3qz3f_xd1sl4fy4890w3cpy80000gn/T/marimo_3685/__marimo__cell_RGSE_.py&quot;</span>, line <span class=\"m\">1</span>, in <span class=\"n\">&lt;module&gt;</span>\n<span class=\"w\">    </span><span class=\"n\">manually_gated</span> <span class=\"o\">=</span> <span class=\"n\">flow</span><span class=\"o\">.</span><span class=\"n\">apply_drawn_gate</span><span class=\"p\">(</span><span class=\"n\">expr</span><span class=\"o\">.</span><span class=\"n\">expr</span><span class=\"p\">,</span> <span class=\"n\">name</span><span class=\"o\">=</span><span class=\"s2\">&quot;my_gate&quot;</span><span class=\"p\">)</span>\n<span class=\"w\">                     </span><span class=\"pm\">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>\n  File <span class=\"nb\">&quot;/Users/wuxiaoyu/Documents/GitHub/xiaoyu_CF/src/xiaoyu_CF/__init__.py&quot;</span>, line <span class=\"m\">343</span>, in <span class=\"n\">apply_drawn_gate</span>\n<span class=\"w\">    </span><span class=\"k\">raise</span> <span class=\"ne\">ValueError</span><span class=\"p\">(</span>\n<span class=\"gr\">ValueError</span>: <span class=\"n\">No polygon drawn yet. Draw a polygon in the interactive preview cell first, then re-run this cell.</span>\n</pre></div>\n</span>",
+          "mimetype": "application/vnd.marimo+traceback"
+        }
+      ]
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "f0a3801b87fdfec44a7b0155b4323b75",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"3-channel-histogram-replace-channel-huefacet\">3. Channel Histogram (replace channel &amp; huefacet)</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "4fe34c1be5ee6f1ee98f6fbd0e804607",
+      "outputs": [],
+      "console": []
+    }
+  ]
+}

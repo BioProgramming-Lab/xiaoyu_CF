@@ -154,7 +154,8 @@ cell_population = flow.auto_gate_FSC_SSC(expr.expr, keep=0.6)
 single_cells = flow.auto_gate_FSC_A_H(cell_population, keep=0.7)
 
 row_a = flow.subset_by_char(single_cells, "A")
-flow.channel_histogram(row_a, channel="Alexa 647-A", huefacet="conc")
+fig, _ = flow.density_plot(row_a, xchannel="FSC 488/10-A",
+                             ychannel="Alexa 647-A", xscale="log", yscale="log")
 
 expr.median_96well(single_cells, channel="Alexa 647-A")
 plt.show()
@@ -367,46 +368,31 @@ gated = flow.polygon_gate(
 )
 ```
 
-Applies a general polygon gate for any two channels.
+Applies a general polygon gate for any two channels. `vertices` must be a list
+of at least 3 `[x, y]` pairs.
 
-If `vertices=[]`, the function opens an interactive matplotlib plot where points
-can be added and dragged. This requires a graphical matplotlib backend, so it is
-not suitable for headless test runs.
+For interactive polygon picking (marimo / notebook), use
+`interactive_gate_preview()` + `apply_drawn_gate()` instead.
+
+### `interactive_gate_preview` and `apply_drawn_gate`
+
+```python
+fig = flow.interactive_gate_preview(
+    experiment,
+    xchannel="FSC 488/10-A",
+    ychannel="SSC 488/10-A",
+    xscale="linear", yscale="linear",
+)
+# display with mo.mpl.interactive(fig), draw polygon, then:
+gated = flow.apply_drawn_gate(experiment, name="my_gate")
+```
+
+Marimo-compatible interactive polygon gate. `interactive_gate_preview` returns a
+matplotlib figure with a polygon selector attached — display it with
+`mo.mpl.interactive(fig)`, draw a polygon by clicking on the plot, then call
+`apply_drawn_gate` to apply the gate with the captured vertices.
 
 ## Plotting Helpers
-
-### `FSC_SSC_ploting`
-
-```python
-flow.FSC_SSC_ploting(experiment, type="scatter")
-flow.FSC_SSC_ploting(experiment, type="density")
-```
-
-Plots FSC-A versus SSC-A using either Cytoflow scatter or density views.
-
-The function name keeps the original spelling for compatibility.
-
-### `FSC_A_H_ploting`
-
-```python
-flow.FSC_A_H_ploting(experiment)
-```
-
-Plots FSC-A versus FSC-H.
-
-### `channel_histogram`
-
-```python
-flow.channel_histogram(
-    experiment,
-    channel="Alexa 647-A",
-    huefacet="sample",
-    bins=200,
-)
-```
-
-Plots a log-scaled histogram for a channel. If `huefacet="conc"`, the hue scale
-is also log-scaled.
 
 ### `density_plot`
 
@@ -421,19 +407,6 @@ fig, ax = flow.density_plot(
 ```
 
 Creates a `mpl-scatter-density` plot and returns the matplotlib figure and axes.
-
-### `log_density_plot`
-
-```python
-flow.log_density_plot(
-    experiment,
-    xchannel="Alexa 647-A",
-    ychannel="mCherry-A",
-    huefacet="sample",
-)
-```
-
-Uses Cytoflow's `DensityView` with log-scaled x and y channels.
 
 ## Subsetting and Counting
 
@@ -497,6 +470,38 @@ Available scales:
 The old compiled logicle extension is not included. If future work needs
 logicle-like visualization, the cleanest options are either implementing a pure
 Python scale or adding a maintained external transform dependency.
+
+## Marimo Notebook Support
+
+This package works with [marimo](https://marimo.io) notebooks. Install with:
+
+```bash
+pip install "xiaoyu-cytoflow[marimo]"
+```
+
+See `examples/marimo_template.py` and `examples/flow_analysis.py` for a working
+template.
+
+**Module-style pattern** — Put frequently-changed plotting/analysis logic in a
+separate `.py` module (like `examples/flow_analysis.py`), import it into the
+notebook, and enable **"On module change → autorun"** in marimo settings. This
+lets you edit the module in any editor (opencode, VS Code, etc.) and marimo
+auto-refreshes affected cells in the browser.
+
+**Interactive polygon gating** — Use `flow.interactive_gate_preview()` to display
+a density plot with a polygon selector (compatible with marimo's inline display),
+draw the polygon by clicking, then call `flow.apply_drawn_gate()` to apply it.
+This replaces the old `polygon_gate(vertices=[])` approach which uses a blocking
+`plt.show()` window incompatible with marimo.
+
+Key marimo conventions:
+- Every cell-level variable name must be unique across the notebook
+- Prefix temporary variables with `_` to keep them cell-local
+- Use `mo.mpl.interactive(fig)` to display matplotlib figures
+- Use `mo.ui.table(df)` for interactive data tables
+- For interactive polygon gating, use `flow.interactive_gate_preview()` +
+  `flow.apply_drawn_gate()` — ``polygon_gate`` with ``vertices=[]`` does not
+  work in marimo (it launches a blocking ``plt.show()`` window).
 
 ## Testing
 
@@ -585,11 +590,11 @@ If another instrument exports different names, users should pass explicit
 channel arguments where supported. A future improvement could add a channel name
 configuration layer.
 
-### Interactive Plotting Needs a GUI Backend
+### Interactive Plotting
 
-Most plotting helpers work in normal matplotlib sessions. The interactive
-polygon picker requires a GUI-capable backend and will not work in headless
-CI-style runs.
+Use `interactive_gate_preview()` + `apply_drawn_gate()` for interactive polygon
+gating in marimo or Jupyter notebooks. These use matplotlib's built-in
+`PolygonSelector` widget, compatible with notebook backends.
 
 ### Generated Outputs
 
@@ -661,7 +666,8 @@ single_cells = flow.auto_gate_FSC_A_H(cells, keep=0.7, if_plot=True)
 print("Single-cell events:", flow.cell_count(single_cells))
 
 column_12 = flow.subset_by_num(single_cells, "12")
-flow.channel_histogram(column_12, channel="Alexa 647-A", huefacet="conc")
+fig, _ = flow.density_plot(column_12, xchannel="FSC 488/10-A",
+                             ychannel="Alexa 647-A", xscale="log", yscale="log")
 
 expr.median_96well(single_cells, channel="Alexa 647-A")
 

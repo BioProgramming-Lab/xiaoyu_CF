@@ -1,0 +1,61 @@
+[global]
+# Applied to all matplotlib rcParams
+font_family = "sans-serif"
+font_size = 11
+axes_titlesize = 14
+axes_titleweight = "bold"
+axes_labelsize = 12
+axes_spines_top = false
+axes_spines_right = false
+axes_grid = false
+legend_fontsize = 10
+legend_frameon = true
+legend_fancybox = true
+legend_framealpha = 0.9
+xtick_labelsize = 9
+ytick_labelsize = 9
+savefig_bbox = "tight"
+savefig_dpi = 150
+
+[figure]
+figsize = [8, 5]
+dpi = 100
+
+[histogram]
+bins = 200
+alpha = 0.3
+linewidth = 2
+kde_threshold = 0.01
+show_kde = true
+
+[scatter]
+s = 1
+alpha = 0.05
+edgecolors = "none"
+
+[density]
+
+[palette]
+control = "#7f7f7f"
+A1 = "#e74c3c"
+A2 = "#e74c3c"
+A3 = "#e74c3c"
+B1 = "#3498db"
+B2 = "#3498db"
+B3 = "#3498db"
+C1 = "#2ecc71"
+C2 = "#2ecc71"
+C3 = "#2ecc71"
+
+palette_10 = [
+    "#C75B4A",  # venetian red
+    "#5B7FAF",  # cobalt blue
+    "#D4A24C",  # warm ochre
+    "#8F9E6B",  # olive green
+    "#9A8CB5",  # lavender
+    "#E8886A",  # coral
+    "#5E9B9B",  # teal
+    "#C4A56C",  # dusty gold
+    "#B08A9E",  # mauve
+    "#7E9E7A",  # sage
+]

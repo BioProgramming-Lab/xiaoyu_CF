@@ -555,6 +555,10 @@ class ImportOp(HasStrictTraits):
                                        "for tube {}: {}"
                                        .format(self.tubes[0].file, str(e))) from e
 
+        # ZE5 cytometer stores data at 8192x BD-scale; normalize
+        is_ze5 = tube0_meta.get('$CYT') == 'YETI'
+        experiment.metadata['is_ze5'] = is_ze5
+
         meta_channels = tube0_meta["_channels_"]
 
         if self.name_metadata:
@@ -653,6 +657,12 @@ class ImportOp(HasStrictTraits):
             f1 = float(meta_channels.loc[channel]['$PnE'][0])
             f2 = float(meta_channels.loc[channel]['$PnE'][1])
 
+            # store per-channel amplifier scale: log if $PnE indicates log amp
+            if f1 > 0.0:
+                experiment.metadata[channel]["amp_scale"] = "log"
+            else:
+                experiment.metadata[channel]["amp_scale"] = "linear"
+
             if f1 > 0.0 and f2 == 0.0:
                 warnings.warn('Invalid $PnE = {},{} for channel {}, changing it to {},1.0'
                               .format(f1, f2, channel, f1),
@@ -665,6 +675,10 @@ class ImportOp(HasStrictTraits):
                               util.CytoflowWarning)
                 experiment.data[channel] = 10 ** (f1 * experiment.data[channel] / data_range) * f2
 
+        if is_ze5:
+            experiment.data[channels] = experiment.data[channels].astype("float64") / 8192
+            for channel in channels:
+                experiment.metadata[channel]["range"] = float(experiment.metadata[channel]["range"]) / 8192
 
         for channel in channels:
             if self.channels and channel in self.channels:
@@ -1442,30 +1456,33 @@ class DensityGateOp(HasStrictTraits):
         else:
             groupby = experiment.data.groupby(lambda _: True)
 
-        event_assignments = pd.Series([False] * len(experiment), dtype = "bool")
+        new_experiment = experiment.clone(deep=False)
 
-        for group, group_data in groupby:
-            if group not in self._keep_xbins:
-                continue
-
-            group_idx = groupby.groups[group]
-
-            cX = pd.cut(group_data[self.xchannel], self._xbins, include_lowest = True, labels = False).reset_index(drop = True)
-            cY = pd.cut(group_data[self.ychannel], self._ybins, include_lowest = True, labels = False).reset_index(drop = True)
-
-            group_keep = pd.Series([False] * len(group_data))
-
-            keep_x = self._keep_xbins[group]
-            keep_y = self._keep_ybins[group]
-
-            for (xbin, ybin) in zip(keep_x, keep_y):
-                group_keep = group_keep | ((cX == xbin) & (cY == ybin))
-
-            event_assignments.iloc[group_idx] = group_keep
-
-        new_experiment = experiment.clone(deep = False)
-
-        new_experiment.add_condition(self.name, "bool", event_assignments)
+        from ._utility import density_gate_to_polygon
+        poly = density_gate_to_polygon(self)
+        if poly and len(poly) >= 3:
+            poly_gate = PolygonOp(name=self.name,
+                                  xchannel=self.xchannel,
+                                  ychannel=self.ychannel,
+                                  vertices=poly)
+            gated = poly_gate.apply(experiment)
+            new_experiment.add_condition(self.name, "bool",
+                                          gated.data[self.name])
+        else:
+            event_assignments = pd.Series([False] * len(experiment), dtype="bool")
+            for group, group_data in groupby:
+                if group not in self._keep_xbins:
+                    continue
+                group_idx = groupby.groups[group]
+                cX = pd.cut(group_data[self.xchannel], self._xbins, include_lowest=True, labels=False).reset_index(drop=True)
+                cY = pd.cut(group_data[self.ychannel], self._ybins, include_lowest=True, labels=False).reset_index(drop=True)
+                group_keep = pd.Series([False] * len(group_data))
+                keep_x = self._keep_xbins[group]
+                keep_y = self._keep_ybins[group]
+                for (xbin, ybin) in zip(keep_x, keep_y):
+                    group_keep = group_keep | ((cX == xbin) & (cY == ybin))
+                event_assignments.iloc[group_idx] = group_keep
+            new_experiment.add_condition(self.name, "bool", event_assignments)
 
         new_experiment.history.append(self.clone_traits(transient = lambda _: True))
         return new_experiment

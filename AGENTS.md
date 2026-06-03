@@ -47,7 +47,8 @@ expr.add_conc_condition(1e-5, dilu_dir="down")
 cells = flow.auto_gate_FSC_SSC(expr.expr, keep=0.6)
 single_cells = flow.auto_gate_FSC_A_H(cells, keep=0.7)
 
-flow.channel_histogram(single_cells, channel="Alexa 647-A", huefacet="conc")
+flow.density_plot(single_cells, xchannel="FSC 488/10-A",
+                  ychannel="Alexa 647-A", xscale="log", yscale="log")
 expr.median_96well(single_cells, channel="Alexa 647-A")
 
 plt.show()
@@ -72,9 +73,9 @@ Use these `xiaoyu_CF` helpers first:
 - `gate_FSC_SSC(experiment, vertices)`
 - `gate_FSC_A_H(experiment, vertices)`
 - `polygon_gate(experiment, xchannel, ychannel, vertices=...)`
-- `channel_histogram(experiment, channel="Alexa 647-A", huefacet="sample")`
+- `interactive_gate_preview(experiment, xchannel, ychannel)` — marimo-compatible polygon picker
+- `apply_drawn_gate(experiment, name)` — apply the polygon drawn in interactive_gate_preview
 - `density_plot(experiment, xchannel, ychannel)`
-- `log_density_plot(experiment, xchannel, ychannel, huefacet="")`
 - `subset_by_char(experiment, char)`
 - `subset_by_num(experiment, num)`
 - `subset_by_well(experiment, well)`
@@ -99,10 +100,10 @@ pass explicit `channel`, `xchannel`, or `ychannel` arguments.
 
 ## Important Constraints
 
-- This package vendors a slim Cytoflow subset. It is not full upstream Cytoflow.
 - Available scales are `linear` and `log`.
-- Logicle support was intentionally removed with the compiled extension.
-- Interactive polygon picking requires a GUI matplotlib backend.
+- Logicle support was removed.
+- Use `interactive_gate_preview()` + `apply_drawn_gate()` for polygon gating;
+  the old `DraggablePolygon`-based interactive mode is removed.
 - Headless scripts should use `matplotlib.use("Agg")` before importing pyplot.
 - `subset_by_num` expects plate column values as strings, for example `"12"`.
 - `median_96well` writes `median_values.txt` into the FCS working directory.
@@ -119,6 +120,32 @@ When generating user scripts:
 - Use `plt.show()` only for interactive scripts.
 - Avoid using removed Cytoflow features such as logicle scales or unused
   advanced views.
+
+## Marimo Notebook Support
+
+This package works with [marimo](https://marimo.io) notebooks. Install with:
+
+```bash
+pip install "xiaoyu-cytoflow[marimo]"
+```
+
+See `examples/marimo_template.py` and `examples/flow_analysis.py` for a working
+template.
+
+**Module-style pattern** — Put frequently-changed plotting/analysis logic in a
+separate `.py` module (like `examples/flow_analysis.py`), import it into the
+notebook, and enable **"On module change → autorun"** in marimo settings. This
+lets you edit the module in any editor (opencode, VS Code, etc.) and marimo
+auto-refreshes affected cells in the browser.
+
+Key marimo conventions:
+- Every cell-level variable name must be unique across the notebook
+- Prefix temporary variables with `_` to keep them cell-local
+- Use `mo.mpl.interactive(fig)` to display matplotlib figures
+- Use `mo.ui.table(df)` for interactive data tables
+- For interactive polygon gating, use `flow.interactive_gate_preview()` +
+  `flow.apply_drawn_gate()` — ``polygon_gate`` with ``vertices=[]`` does not
+  work in marimo (it launches a blocking ``plt.show()`` window).
 
 ## Useful Local Commands
 

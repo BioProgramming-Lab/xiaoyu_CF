@@ -1,0 +1,151 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.23.8",
+    "script_metadata_hash": null
+  },
+  "cells": [
+    {
+      "id": "Hbol",
+      "code_hash": "1d0db38904205bec4d6f6f6a1f6cec3e",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "b5ab246fa7132d504242759312308b00",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"all-available-plots\">All Available Plots</h1></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "213f649bd78bdd8fb5f392c3d491bfdc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "6 fsc files loaded\nproperties of the experiment: Index(['549/15-488 nm citrine-A', '549/15-488 nm citrine-H',\n       '549/15-488 nm citrine-W', 'Alexa 647-A', 'Alexa 647-H', 'Alexa 647-W',\n       'Citrine-A', 'Citrine-H', 'Citrine-W', 'Event Info', 'FSC 488/10-A',\n       'FSC 488/10-H', 'FSC 488/10-W', 'SSC 488/10-A', 'SSC 488/10-H',\n       'SSC 488/10-W', 'TIME', 'TLSW', 'TMSW', 'TagBFP-A', 'TagBFP-H',\n       'TagBFP-W', 'char', 'mCherry-A', 'mCherry-H', 'mCherry-W', 'num',\n       'sample', 'well'],\n      dtype='str')\nSinglets: 127,008\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "bd2372d8f7af55a33f8dff3fbc10b054",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"1-density-plot\">1. Density Plot</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "7eb75c184207fcd0d5a620bdd16ddece",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "16c51231536fd778c58d31db188b2c56",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"2-histogram\">2. Histogram</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "143bf28175646a9ad09b08038c503226",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "635622a1f0640b2571c5274a7b7d4817",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"3-ridgeline\">3. Ridgeline</h2></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "c5e1a417a730dc76e6f05b71a13ee3aa",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "c09c55f95a32823af59e3684c6936584",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"4-interactive-polygon-gate\">4. Interactive Polygon Gate</h2>\n<span class=\"paragraph\">Draw a polygon on the density plot, then re-run the next cell to apply.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "6770904b2ad0738ffd497c4cc6dbc9ef",
+      "outputs": [],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "674d47b3d690a43b944b6fb32344ab20",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/plain": ""
+          }
+        }
+      ],
+      "console": [
+        {
+          "type": "stream",
+          "name": "stdout",
+          "text": "Events in gate: 176,092\n",
+          "mimetype": "text/plain"
+        }
+      ]
+    }
+  ]
+}

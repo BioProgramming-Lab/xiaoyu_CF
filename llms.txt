@@ -50,7 +50,7 @@ Common helpers:
 - `flow.gate_FSC_SSC(...)`
 - `flow.gate_FSC_A_H(...)`
 - `flow.polygon_gate(...)`
-- `flow.channel_histogram(...)`
+- `flow.interactive_gate_preview(...)` / `flow.apply_drawn_gate(...)`
 - `flow.density_plot(...)`
 - `flow.subset_by_char(...)`
 - `flow.subset_by_num(...)`
@@ -62,6 +62,8 @@ Important constraints:
 - Available scales are `linear` and `log`.
 - Logicle support is removed.
 - The vendored cytoflow/fcsparser code is now internal to `xiaoyu_CF`.
+- Use `interactive_gate_preview()` + `apply_drawn_gate()` for polygon gating;
+  the old `DraggablePolygon`-based interactive mode is removed.
 - If channel names differ, inspect `expr.expr.data.columns` and pass explicit
   channel names to helper functions.
 

@@ -2182,3 +2182,38 @@ register_scale(LogScale)
 #   register_scale(HlogScale)
 
 matplotlib.scale.register_scale(MatplotlibHlogScale)
+
+
+# ===========================================================================
+# Density gate → polygon conversion
+# ===========================================================================
+
+def density_gate_to_polygon(gate_op):
+    """Extract polygon vertices from a DensityGateOp's keep contour.
+
+    Returns list of [x, y] vertices, or None if contour extraction fails.
+    Warns if multiple contour segments are found.
+    """
+    import matplotlib.pyplot as _plt
+    hist = gate_op._histogram.get(True)
+    if hist is None or not hist.size:
+        return None
+    level = hist[gate_op._keep_xbins[True][-1], gate_op._keep_ybins[True][-1]]
+    xbins = gate_op._xbins[:-1]
+    ybins = gate_op._ybins[:-1]
+    cs = _plt.contour(xbins, ybins, hist.T, [level])
+    segs = cs.allsegs[0] if hasattr(cs, 'allsegs') else []
+    if not segs:
+        _plt.close()
+        return None
+    segs = [s for s in segs if len(s) >= 3]
+    if not segs:
+        _plt.close()
+        return None
+    best = max(segs, key=len)
+    _plt.close()
+    if len(segs) > 1:
+        print(f"[WARN] Density gate produced {len(segs)} contour segments; "
+              "keeping the largest. Consider manual polygon gating.")
+    best = best[::4]
+    return [[float(v[0]), float(v[1])] for v in best]

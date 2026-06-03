@@ -1,32 +1,32 @@
 {
   "alexa_647_median_by_sample": {
-    "1": 87468288.0,
-    "2": 90801920.0,
-    "3": 98301568.0,
-    "4": 92856320.0,
-    "5": 102498560.0,
-    "6": 112931072.0
+    "1": 10784.140625,
+    "2": 11062.84375,
+    "3": 12122.46875,
+    "4": 11285.828125,
+    "5": 12657.0625,
+    "6": 13872.671875
   },
   "data_dir": "test/26Mar2025/HuaiDan-New Experiment-20250326-1722",
-  "events_after_doublet_gate": 127008,
-  "events_after_fsc_ssc_gate": 158681,
+  "events_after_doublet_gate": 110908,
+  "events_after_fsc_ssc_gate": 156426,
   "events_imported": 256836,
   "fcs_files": 6,
   "positive_fraction_by_mix": {
     "A": {
-      "CHO_EGFR": 0.010483135824977211,
-      "CHO_EGFR_EpCAM": 0.6254667662434653,
-      "CHO_EpCAM": 0.0624509033778476
+      "CHO_EGFR": 0.01038961038961039,
+      "CHO_EGFR_EpCAM": 0.6443388072601556,
+      "CHO_EpCAM": 0.06733393994540492
     },
     "B": {
-      "CHO_EGFR": 0.014257620452310717,
-      "CHO_EGFR_EpCAM": 0.6043471155417552,
-      "CHO_EpCAM": 0.057467732022126614
+      "CHO_EGFR": 0.018171493469619535,
+      "CHO_EGFR_EpCAM": 0.618116217242689,
+      "CHO_EpCAM": 0.05640842556229918
     },
     "C": {
-      "CHO_EGFR": 0.017241379310344827,
-      "CHO_EGFR_EpCAM": 0.6474205671335839,
-      "CHO_EpCAM": 0.061946902654867256
+      "CHO_EGFR": 0.018617021276595744,
+      "CHO_EGFR_EpCAM": 0.662799842705466,
+      "CHO_EpCAM": 0.0692757534862798
     }
   },
   "scale_mapping": [
